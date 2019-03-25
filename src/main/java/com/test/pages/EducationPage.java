@@ -1,14 +1,20 @@
 package com.test.pages;
 
-import com.test.Util;
-import org.apache.commons.logging.impl.AvalonLogger;
+import com.test.DriverManager;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+
 @Component("Education")
+@Scope(SCOPE_PROTOTYPE)
 public class EducationPage extends AbstractPage implements Page {
+
+    private WebDriver driver = DriverManager.getDriver();
 
     @FieldName("Students header")
     @FindBy(xpath = "//li[contains(@class, 'active') and contains(text(), 'Students')]")
@@ -31,6 +37,6 @@ public class EducationPage extends AbstractPage implements Page {
     private WebElement closePopup;
 
     public EducationPage() {
-        PageFactory.initElements(Util.driver, this);
+        PageFactory.initElements(driver, this);
     }
 }

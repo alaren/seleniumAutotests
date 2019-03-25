@@ -6,6 +6,7 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,31 +20,30 @@ public class TestSteps {
 
 	private Steps steps = new Steps();
 
-	private WebDriver driver = Util.driver;
-
 	private static HashMap<String, String> pages = new HashMap<String, String>();
 
 	static {
 		pages.put("https://www.wiley.com/en-us", "Main");
 		pages.put("https://www.wiley.com/en-us/students", "Students");
 		pages.put("https://www.wiley.com/en-us/subjects", "Subjects");
+		pages.put("https://www.wiley.com/en-us/search?", "Search result");
 	}
 
 	@When("^открыта главная страница")
 	public void moveTo() throws Throwable {
-		driver.get("https://www.wiley.com/en-us");
+		steps.goToUrl("https://www.wiley.com/en-us");
 	}
 
 	@When("^выполнено нажатие на кнопку '(.*)'")
 	public void clickToElement(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
-		Util.clickOnElement(element, name);
+		steps.clickOnElement(element, name);
 	}
 
 	@When("^ссылка '(.*)' отображается на странице")
 	public void isElementVisible(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
-		Util.checkElementIsVisible(element, name);
+		steps.checkElementIsVisible(element, name);
 	}
 
 	@When("^выполнено нажатие на кнопку '(.*)' если она видима")
@@ -65,13 +65,13 @@ public class TestSteps {
 
 	@When("^подождать '(.*)' секунд")
 	public void wait(int sec) throws Throwable {
-		Util.wait(sec);
+		steps.wait(sec);
 	}
 
 	@When("^навести курсор на '(.*)'")
 	public void moveToElement(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
-		Util.moveToElement(element);
+		steps.moveToElement(element);
 	}
 
 	@When("^навести курсор на элемент выпадающего списка '(.*)' с текстом '(.*)'")
@@ -84,7 +84,7 @@ public class TestSteps {
 	public void wait(String name, List<String> examples) throws Throwable {
 		List<WebElement> elements = steps.getElementListByNameAndPage(name, getPage());
 		for (String s:examples) {
-			if (!isElementListContainsValue(elements, s)) {
+			if (!steps.isElementListContainsValue(elements, s)) {
 				throw new AssertionError(String.format("Выпадающий список %s не содержит элемент %s", name, s));
 			}
 			System.out.println(String.format("Выпадающий список %s содержит элемент %s", name, s));
@@ -120,24 +120,17 @@ public class TestSteps {
 		steps.checkAllElementsInListContainText(element, text.toLowerCase());
 	}
 
+	@When("^на странице представлено '(.*)' блоков '(.*)'")
+	public void numberOfhtmlElementsVisible(int number, String blockName) throws Throwable {
+		steps.numberOfBlockVisibleOnPage(blockName, number, getPage());
+	}
+
 
 	private Page getPage() {
-		String pageName = pages.get(driver.getCurrentUrl());
-		return steps.getPageByName(pageName);
-	}
-
-	private void clickOnElement(String name) {
-		WebElement element = steps.getElementByNameAndPage(name, getPage());
-		Util.checkElementIsVisible(element, name);
-		element.click();
-	}
-
-	private boolean isElementListContainsValue(List<WebElement> list, String value) {
-		for (WebElement e:list) {
-			if (e.getText().equals(value)) {
-				return true;
-			}
+		String url = steps.getUrl();
+		if (url.contains("search")){
+			url = url.split("pq")[0];
 		}
-		return false;
+		return steps.getPageByName(pages.get(url));
 	}
 }
