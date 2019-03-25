@@ -23,7 +23,6 @@ public class DriverManager {
         if (driver != null) {
             driver.close();
             driver = null;
-            Util.driver = null;
         }
     }
 }
