@@ -125,6 +125,11 @@ public class TestSteps {
 		steps.numberOfBlockVisibleOnPage(blockName, number, getPage());
 	}
 
+    @When("^отправить GET запрос '(.*)'")
+    public void sendGet(String url) throws Throwable {
+        steps.sendGet(url);
+    }
+
 
 	private Page getPage() {
 		String url = steps.getUrl();

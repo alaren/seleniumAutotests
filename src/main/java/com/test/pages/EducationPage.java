@@ -1,6 +1,7 @@
 package com.test.pages;
 
 import com.test.DriverManager;
+import com.test.main.FieldName;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +13,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 
 @Component("Education")
 @Scope(SCOPE_PROTOTYPE)
-public class EducationPage extends AbstractPage implements Page {
+public class EducationPage implements Page {
 
     private WebDriver driver = DriverManager.getDriver();
 

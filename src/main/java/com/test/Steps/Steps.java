@@ -1,8 +1,8 @@
 package com.test.Steps;
 
 import com.test.DriverManager;
-import com.test.SpringApp;
-import com.test.pages.FieldName;
+import com.test.spring.SpringApp;
+import com.test.main.FieldName;
 import com.test.pages.Page;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -10,7 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -236,6 +239,21 @@ public class Steps {
             }
         }
         return false;
+    }
+
+    public void sendGet(String urlStr) {
+        try {
+            URL url = new URL(urlStr);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int code = connection.getResponseCode();
+            System.out.println(String.format("Запрос %s отправлен. \n Код ответа: %s", urlStr, code));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private boolean isElementContainsAttribute(WebElement element, String attr, String attrValue) {

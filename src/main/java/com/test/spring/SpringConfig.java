@@ -1,4 +1,4 @@
-package com.test;
+package com.test.spring;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "com.test")
 public class SpringConfig {
 
 }

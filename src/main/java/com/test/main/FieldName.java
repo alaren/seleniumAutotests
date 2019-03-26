@@ -1,4 +1,4 @@
-package com.test.pages;
+package com.test.main;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

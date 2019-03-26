@@ -1,6 +1,5 @@
-package com.test;
+package com.test.spring;
 
-import cucumber.api.java.Before;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class SpringApp {
