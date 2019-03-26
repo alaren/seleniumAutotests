@@ -1,10 +1,10 @@
 Feature: the version can be retrieved
   Scenario: client makes call to GET /version
     When открыта главная страница
-    When выполнено нажатие на кнопку 'Close popup' если она видима
+    When выполнено нажатие на элемент 'Close popup' если он видим
     When навести курсор на 'Subjects'
-    When навести курсор на элемент выпадающего списка 'Droplist Subjects' с текстом 'Education'
-    When выпадающий список 'Droplist Education' содержит следующие значения:
+    When навести курсор на элемент списка 'Droplist Subjects' с текстом 'Education'
+    When список 'Droplist Education' содержит следующие значения:
       |Assessment, Evaluation Methods|
       |Classroom Management          |
       |Conflict Resolution & Mediation|

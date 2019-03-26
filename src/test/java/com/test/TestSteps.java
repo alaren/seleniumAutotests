@@ -34,30 +34,30 @@ public class TestSteps {
 		steps.goToUrl("https://www.wiley.com/en-us");
 	}
 
-	@When("^выполнено нажатие на кнопку '(.*)'")
+	@When("^выполнено нажатие на элемент '(.*)'")
 	public void clickToElement(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
 		steps.clickOnElement(element, name);
 	}
 
-	@When("^ссылка '(.*)' отображается на странице")
+	@When("^элемент '(.*)' отображается на странице")
 	public void isElementVisible(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
 		steps.checkElementIsVisible(element, name);
 	}
 
-	@When("^выполнено нажатие на кнопку '(.*)' если она видима")
+	@When("^выполнено нажатие на элемент '(.*)' если он видим")
 	public void clickOnElementIfVisible(String name) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(name, getPage());
 		steps.clickOnElementIfVisible(element, name);
 	}
 
-	@When("^выполнено нажатие на элемент выпадающего списка '(.*)' с текстом '(.*)'")
+	@When("^выполнено нажатие на элемент списка '(.*)' с текстом '(.*)'")
 	public void clickOnElementIfVisible(String dropList, String item) throws Throwable {
 		steps.clickOnElementInDropList(dropList, item, getPage());
 	}
 
-	@When("^выпадающий список '(.*)' содержит '(.*)' элементов")
+	@When("^список '(.*)' содержит '(.*)' элементов")
 	public void checkIfDroplistContainsNumberOfElements(String name, int number) throws Throwable {
 		List<WebElement> elements = steps.getElementListByNameAndPage(name, getPage());
 		steps.checkIsDroplistContainsNumberOfelements(elements, number);
@@ -74,13 +74,13 @@ public class TestSteps {
 		steps.moveToElement(element);
 	}
 
-	@When("^навести курсор на элемент выпадающего списка '(.*)' с текстом '(.*)'")
+	@When("^навести курсор на элемент списка '(.*)' с текстом '(.*)'")
 	public void moveToElementInDropList(String dropList, String text) throws Throwable {
 		List<WebElement> elements = steps.getElementListByNameAndPage(dropList, getPage());
 		steps.moveToDropListElementByName(elements, text);
 	}
 
-	@When("^выпадающий список '(.*)' содержит следующие значения:")
+	@When("^список '(.*)' содержит следующие значения:")
 	public void wait(String name, List<String> examples) throws Throwable {
 		List<WebElement> elements = steps.getElementListByNameAndPage(name, getPage());
 		for (String s:examples) {
@@ -91,7 +91,7 @@ public class TestSteps {
 		}
 	}
 
-	@When("^ссылка '(.*)' содержит аттрибут '(.*)' со значением '(.*)'")
+	@When("^элемент '(.*)' содержит аттрибут '(.*)' со значением '(.*)'")
 	public void moveToElement(String elementName, String attr, String attrValue) throws Throwable {
 		WebElement element = steps.getElementByNameAndPage(elementName, getPage());
 		steps.checkIfElementContainsAttributeWithValue(element, attr, attrValue);
