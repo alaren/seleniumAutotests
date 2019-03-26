@@ -13,14 +13,6 @@ public class SpringApp {
         }
     }
 
-    public static void killSpring() {
-        if (context.isActive()) {
-            context = new AnnotationConfigApplicationContext();
-            context.register(SpringConfig.class);
-            context.refresh();
-        }
-    }
-
     public static AnnotationConfigApplicationContext getContext() {
         return context;
     }
