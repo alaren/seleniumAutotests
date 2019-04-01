@@ -4,18 +4,20 @@ import com.test.DriverManager;
 import com.test.spring.SpringApp;
 import com.test.main.FieldName;
 import com.test.pages.Page;
+import cucumber.api.java.it.Ma;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Steps {
 
@@ -75,14 +77,6 @@ public class Steps {
         return elements;
     }
 
-    public void openUrl(String url) {
-
-    }
-
-    public WebElement getWebElementFromHtmlElement(HtmlElement element, String name) {
-        return getWebElementFromObject(element, name);
-    }
-
     public void clickOnElementIfVisible(WebElement element, String name) {
         if (isElementVisible(element)) {
             element.click();
@@ -108,8 +102,17 @@ public class Steps {
                 e.click();
                 return;
             }
-            throw new AssertionError(String.format("В выпадающем списке %s не найдет элемент с текстом %s", dropList, item));
         }
+        throw new AssertionError(String.format("В выпадающем списке %s не найдет элемент с текстом %s", dropList, item));
+    }
+
+    public void clickOnElementInDropListByNumber(String dropList, int item, Page page) {
+        List<WebElement> elements = getElementListByNameAndPage(dropList, page);
+        waitOfElementList(elements);
+        if (elements.isEmpty()) {
+            throw new AssertionError(String.format("Выпадающий список %s пуст", dropList));
+        }
+        clickOnElement(elements.get(item-1), elements.get(item-1).getText());
     }
 
     public void checkIfElementContainsAttributeWithValue(WebElement element, String attr, String attrValue) {
@@ -137,6 +140,7 @@ public class Steps {
     }
 
     public void sendTextToField(WebElement field, String text) {
+        checkElementIsVisible(field, field.getText());
         field.sendKeys(text);
     }
 
@@ -186,8 +190,8 @@ public class Steps {
     public void checkElementIsClickable(WebElement element, String name) {
         try {
             element.click();
-        } catch (WebDriverException e) {
-            wait(5);
+        } catch (WebDriverException|NullPointerException e) {
+            wait(10);
             try {
                 element.click();
             } catch (WebDriverException e1) {
@@ -208,8 +212,21 @@ public class Steps {
         }
     }
 
+    public void checkElementIsNotVisible(WebElement element, String name) {
+        if (!isElementVisible(element)) {
+            System.out.println(String.format("Элемент %s не отображается на странице", name));
+        } else {
+            throw new AssertionError(String.format("Элемент %s отображается на странице", name));
+        }
+    }
+
+    public void checkElementContainsText(WebElement element, String text) {
+        if (!element.getText().contains(text)) {
+            throw new AssertionError(String.format("Поле не содержит текст '%s'", text));
+        }
+    }
+
     public void clickOnElement(WebElement element, String name) {
-        checkElementIsVisible(element, name);
         checkElementIsClickable(element, name);
         System.out.println(String.format("Выпоглнено нажатие на %s", name));
     }
@@ -254,6 +271,100 @@ public class Steps {
         }
 
 
+    }
+
+    public void createFile(String fileName, int nums) {
+        File file = createNewFile(fileName);
+        String result = getNumsAsString(nums);
+        try (FileWriter writer = new FileWriter(file, false)){
+            writer.write(result);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(String.format("В файл %s записаны следующие значения: %s", fileName, result));
+    }
+
+    public void readFile(String fileName) {
+        File file = new File(fileName);
+        String result = readTextFromFile(file);
+        System.out.println(String.format("Из файла %s прочитаны следующие данные: %s", fileName, result));
+        System.out.println("Сортировка: " + sortByPositive(result));
+        System.out.println("Обратная сортировка: " + sortByNegative(result));
+
+    }
+
+    public void getFactorial(int num) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 2; i <= num; i++) {
+            result = result.multiply(BigInteger.valueOf(i));
+        }
+        System.out.println(String.format("Факториал числа %s = %s", num, result));
+    }
+
+    private File createNewFile(String fileName) {
+        File file = new File(fileName);
+        try {
+            if (file.createNewFile()) {
+                System.out.println(String.format("Файл %s создан", fileName));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    private String sortByPositive(String nums) {
+        String[] numbers = nums.split(",");
+        List<Integer> list = new ArrayList<>();
+        for (String s:numbers) {
+            list.add(Integer.parseInt(s));
+        }
+        Collections.sort(list);
+        StringBuilder sb = new StringBuilder();
+        list.forEach(integer -> sb.append(integer).append(","));
+        sb.deleteCharAt(sb.toString().length()-1);
+        return sb.toString();
+    }
+
+    private String sortByNegative(String nums) {
+        String[] numbers = nums.split(",");
+        List<Integer> list = new ArrayList<>();
+        for (String s:numbers) {
+            list.add(Integer.parseInt(s));
+        }
+        Collections.sort(list, Collections.reverseOrder());
+        StringBuilder sb = new StringBuilder();
+        list.forEach(integer -> sb.append(integer).append(","));
+        sb.deleteCharAt(sb.toString().length()-1);
+        return sb.toString();
+    }
+
+    private String readTextFromFile(File file) {
+        StringBuilder sb = new StringBuilder();
+        try (FileReader reader = new FileReader(file)) {
+            int ch;
+            while ((ch = reader.read()) != -1) {
+                sb.append((char) ch);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    private String getNumsAsString(int nums) {
+        StringBuilder sb = new StringBuilder();
+        List<Integer> set = new ArrayList<>();
+        for (int i = 0; i < nums+1; i++) {
+            set.add(i);
+        }
+        Collections.shuffle(set);
+        for (int i = 0; i < set.size(); i++) {
+            sb.append(set.get(i)).append(",");
+        }
+        sb.deleteCharAt(sb.toString().length()-1);
+        return sb.toString();
     }
 
     private boolean isElementContainsAttribute(WebElement element, String attr, String attrValue) {
