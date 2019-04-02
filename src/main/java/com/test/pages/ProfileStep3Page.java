@@ -18,15 +18,21 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 public class ProfileStep3Page implements Page {
     private WebDriver driver = DriverManager.getDriver();
 
-    private String tittle = "Step3";
-
     @FieldName("Дата устройства")
     @FindBy(xpath = "//input[@name='workStartDate']")
     private WebElement workFrom;
 
+    @FieldName("Дата устройства ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Дата устройства')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement workFromError;
+
     @FieldName("Должность")
     @FindBy(xpath = "//input[@name='workPost']")
     private WebElement position;
+
+    @FieldName("Должность ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Должность')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement positionError;
 
     @FieldName("Должность список")
     @FindBy(xpath = "//div[@data-for='workPost']//div[@class='popup__content']//div//div[contains(@class, 'menu-item')]")
@@ -36,9 +42,17 @@ public class ProfileStep3Page implements Page {
     @FindBy(xpath = "//input[@name='workPhone']")
     private WebElement workPhone;
 
+    @FieldName("Рабочий телефон ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Рабочий телефон')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement workPhoneError;
+
     @FieldName("Образование поле")
     @FindBy(xpath = "//span[@class='select-button__text']//span[contains(text(), 'Образование')]")
     private WebElement education;
+
+    @FieldName("Образование поле ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Образование')]/following-sibling::span[@class='select__sub']//div")
+    private WebElement educationError;
 
     @FieldName("Образование список")
     @FindBy(xpath = "//div[@data-for='education']//div[@class='popup__content']//div//div[contains(@class, 'menu-item')]")
@@ -48,6 +62,10 @@ public class ProfileStep3Page implements Page {
     @FindBy(xpath = "//span[@class='select-button__text']//span[contains(text(), 'Укажите')]")
     private WebElement family;
 
+    @FieldName("Семейное положение ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Семейное положение')]/following-sibling::span[@class='select__sub']//div")
+    private WebElement familyError;
+
     @FieldName("Семейное положение список")
     @FindBy(xpath = "//div[@data-for='maritalStatus']//div[@class='popup__content']//div//div[contains(@class, 'menu-item')]")
     private List<WebElement> familyList;
@@ -55,6 +73,10 @@ public class ProfileStep3Page implements Page {
     @FieldName("Кем приходится контактное лицо поле")
     @FindBy(xpath = "//span[@class='select-button__text']//span[contains(text(), 'Кем вам')]")
     private WebElement contact;
+
+    @FieldName("Кем приходится контактное лицо ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Кем вам приходится')]/following-sibling::span[@class='select__sub']//div")
+    private WebElement contactError;
 
     @FieldName("Кем приходится контактное лицо список")
     @FindBy(xpath = "//div[@data-for='contactType']//div[@class='popup__content']//div//div[contains(@class, 'menu-item')]")
@@ -64,17 +86,33 @@ public class ProfileStep3Page implements Page {
     @FindBy(xpath = "//input[@name='contactLastName']")
     private WebElement contactLastName;
 
+    @FieldName("Фамилия контакта ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Фамилия')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement contactLastNameError;
+
     @FieldName("Имя контакта")
     @FindBy(xpath = "//input[@name='contactFirstName']")
     private WebElement contactName;
+
+    @FieldName("Имя контакта ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Имя')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement contactNameError;
 
     @FieldName("Отчество контакта")
     @FindBy(xpath = "//input[@name='contactMiddleName']")
     private WebElement contactPatronymic;
 
+    @FieldName("Отчество контакта ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Отчество')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement contactPatronymicError;
+
     @FieldName("Телефон контакта")
     @FindBy(xpath = "//input[@name='contactMobilePhone']")
     private WebElement contactPhone;
+
+    @FieldName("Телефон контакта ошибка")
+    @FindBy(xpath = "//span[contains(text(), 'Контактный телефон')]/following-sibling::span[@class='input__sub']//div")
+    private WebElement contactPhoneError;
 
     @FieldName("Продолжить")
     @FindBy(xpath = "//button[@role='button']//span[@class='button__text']")
@@ -87,10 +125,5 @@ public class ProfileStep3Page implements Page {
     @Override
     public boolean isPageLoaded() {
         return DriverManager.isPageLoaded(workFrom, driver);
-    }
-
-    @Override
-    public String getTittle() {
-        return tittle;
     }
 }

@@ -16,12 +16,10 @@ import java.util.NoSuchElementException;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
-@Component("Step10")
+@Component("Step5")
 @Scope(SCOPE_PROTOTYPE)
 public class ProfileStep5Page implements Page {
     private WebDriver driver = DriverManager.getDriver();
-
-    private String tittle = "Step5";
 
     @FieldName("Второй документ поле")
     @FindBy(xpath = "//span[@class='select-button__text']//span[contains(text(), 'Второй документ')]")
@@ -91,10 +89,5 @@ public class ProfileStep5Page implements Page {
     public boolean isPageLoaded() {
         System.out.println("lol");
         return DriverManager.isPageLoaded(confirm, driver);
-    }
-
-    @Override
-    public String getTittle() {
-        return tittle;
     }
 }

@@ -21,7 +21,7 @@ public class TestSteps {
 		pages.put("https://anketa.alfabank.ru/alfaform-refpil/step2", "Step2");
 		pages.put("https://anketa.alfabank.ru/alfaform-refpil/step3", "Step3");
 		pages.put("https://anketa.alfabank.ru/alfaform-refpil/step4", "Step4");
-		pages.put("https://anketa.alfabank.ru/alfaform-refpil/step5", "Step10");
+		pages.put("https://anketa.alfabank.ru/alfaform-refpil/step5", "Step5");
 	}
 
 	@When("^открыта анкета")
@@ -33,7 +33,6 @@ public class TestSteps {
 	public void isPageLoaded() {
 		if (getPage().isPageLoaded()) {
 			System.out.println("Cтраница загружена");
-			System.out.println(getPage().getTittle());
 		} else {
 			throw new AssertionError("Страница не загружена");
 		}

@@ -18,8 +18,6 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 public class ProfileStep2Page implements Page {
     private WebDriver driver = DriverManager.getDriver();
 
-    private String tittle = "Step2";
-
     @FieldName("Серия паспорта")
     @FindBy(xpath = "//div[contains(@class, 'passport')]//input[@name='passportSeries']")
     private WebElement passportSer;
@@ -119,10 +117,5 @@ public class ProfileStep2Page implements Page {
     @Override
     public boolean isPageLoaded() {
         return DriverManager.isPageLoaded(passportSer, driver);
-    }
-
-    @Override
-    public String getTittle() {
-        return tittle;
     }
 }

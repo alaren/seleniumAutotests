@@ -209,6 +209,7 @@ public class Steps {
             if (!isElementVisible(element)) {
                 throw new AssertionError(String.format("Элемент %s не отображается на странице", name));
             }
+            System.out.println(String.format("Элемент %s отображается на странице", name));
         }
     }
 

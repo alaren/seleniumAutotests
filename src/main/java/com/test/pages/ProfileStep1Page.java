@@ -18,8 +18,6 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 public class ProfileStep1Page implements Page {
     private WebDriver driver = DriverManager.getDriver();
 
-    private String tittle = "Step1";
-
     @FieldName("Срок кредита")
     @FindBy(xpath = "//div[@class='top__info']//ul//li//p[contains(text(), 'Срок кредита')]/following::h4")
     private WebElement creditTerm;
@@ -111,10 +109,5 @@ public class ProfileStep1Page implements Page {
     @Override
     public boolean isPageLoaded() {
         return DriverManager.isPageLoaded(creditTerm, driver);
-    }
-
-    @Override
-    public String getTittle() {
-        return tittle;
     }
 }

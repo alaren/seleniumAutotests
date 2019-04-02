@@ -21,8 +21,6 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 public class ProfileStep4Page implements Page {
     private WebDriver driver = DriverManager.getDriver();
 
-    private String tittle = "Step4";
-
     @FieldName("Есть ли кредиты да")
     @FindBy(xpath = "//div[h3[contains(text(), 'У вас есть кредиты в другом банке?')]]/following-sibling::div//button//span//span[contains(text(), 'Да')]")
     private WebElement otherCreditsYes;
@@ -82,10 +80,5 @@ public class ProfileStep4Page implements Page {
     @Override
     public boolean isPageLoaded() {
         return DriverManager.isPageLoaded(otherCreditsYes, driver);
-    }
-
-    @Override
-    public String getTittle() {
-        return tittle;
     }
 }
